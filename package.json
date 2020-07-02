@@ -1,0 +1,24 @@
+{
+  "name": "block-chain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LTAND/block-chain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LTAND/block-chain/issues"
+  },
+  "homepage": "https://github.com/LTAND/block-chain#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "vorpal": "^1.12.0"
+  }
+}
