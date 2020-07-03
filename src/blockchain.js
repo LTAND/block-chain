@@ -1,4 +1,4 @@
-const crypto = require("crypto") // node自带的加密库
+const crypto = require("crypto")   // node自带的加密库
 
 // 创世区块
 const initBlock = {
@@ -49,13 +49,52 @@ class Blockchain {
     }
   }
 
-  // 挖矿
-  mine() {
+  // 生成交易记录
+  transfer(from, to, amount) {
+    if (from !== "0") {
+      // 挖矿奖励直接发放
+      const blance = this.blance(from)
+      if (blance < amount) {
+        console.log(from + " 余额不足", { from, to, amount })
+        return
+      }
+    }
+    // 签名校验
+    let transObj = { from, to, amount }
+    this.data.push(transObj)
+    return transObj
+  }
+
+  // 查看余额 遍历区块链上的所有交易信息
+  blance(address) {
+    let blance = 0
+    this.blockchain.forEach(block => {
+      if (!Array.isArray(block.data)) {
+        // 排除创世区块 因为为空
+        return
+      }
+      block.data.forEach(trans => {
+        if (address == trans.from) {
+          blance -= trans.amount
+        }
+        if (address == trans.to) {
+          blance += trans.amount
+        }
+      })
+    })
+    return blance
+  }
+
+  // 挖矿 打包交易信息
+  mine(address) {
     // 1.生成新的区块 一页新的记账加入了区块链
     // 2.不断计算哈希  直到计算出符合条件的哈希值 获取记账权
+    // 挖矿后 矿工奖励 100
+    this.transfer("0", address, 100) // 奖励记录
     const newBlock = this.generateBlock()
     if (this.isValidBlock(newBlock) && this.isValidChain()) {
       this.blockchain.push(newBlock)
+      this.data = []
       return newBlock
     } else {
       console.log("Error Invaild Block", newBlock)
@@ -114,9 +153,11 @@ class Blockchain {
 
 }
 
-let bc = new Blockchain()
+// let bc = new Blockchain()
 
-bc.mine()
-bc.blockchain[1].prevHash = "22" // 测试修改的区块
-bc.mine()
-console.log("bc.blockchain", bc.blockchain)
+// bc.mine()
+// bc.blockchain[1].prevHash = "22" // 测试修改的区块
+// bc.mine()
+// console.log("bc.blockchain", bc.blockchain)
+
+module.exports = Blockchain

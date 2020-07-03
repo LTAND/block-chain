@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/LTAND/block-chain#readme",
   "dependencies": {
     "cli-table": "^0.3.1",
+    "elliptic": "^6.5.3",
     "vorpal": "^1.12.0"
   }
 }
